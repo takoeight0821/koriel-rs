@@ -1,5 +1,5 @@
 [package]
-name = "koriel-rs"
+name = "koriel"
 version = "0.1.0"
 authors = ["Yuya Kono <takohati0821@gmail.com>"]
 edition = "2018"
