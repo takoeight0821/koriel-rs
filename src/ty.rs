@@ -1,16 +1,19 @@
-use std::collections::HashSet;
+use serde::{Deserialize, Serialize};
 
-#[derive(Debug)]
-pub struct Con(String, Vec<Type>);
-
-#[derive(Debug)]
-pub struct Type {
-    pub kind: TypeKind,
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub struct Con {
+    pub tag: String,
+    pub params: Vec<Type>,
 }
 
-#[derive(Debug)]
-pub enum TypeKind {
-    FunT(Vec<Type>, Box<Type>),
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub enum Type {
+    FunT {
+        params: Vec<Type>,
+        result: Box<Type>,
+    },
     Int32T,
     Int64T,
     FloatT,
@@ -18,9 +21,12 @@ pub enum TypeKind {
     CharT,
     StringT,
     BoolT,
-    SumT(HashSet<Con>),
-    PtrT(Box<Type>),
+    SumT {
+        con_set: Vec<Con>,
+    },
+    PtrT {
+        ptr_to: Box<Type>,
+    },
     AnyT,
     VoidT,
 }
-
